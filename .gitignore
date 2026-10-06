@@ -3,4 +3,4 @@
 .env
 /storage/logs/*
 .DS_Store
-Thumbs.dbgit add .
+Thumbs.db

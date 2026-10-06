@@ -2,7 +2,7 @@
 
 <form
     method="POST"
-    action="/BkpmWebServer/acara10/public/mahasiswa/<?= $mahasiswa['id'] ?>"
+    action="/BkpmWebServer/acara11/public/mahasiswa/<?= $mahasiswa['id'] ?>"
 >
 
     <div class="mb-3">

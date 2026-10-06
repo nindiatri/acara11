@@ -1,7 +1,6 @@
-<h2>Data Mahasiswa</h2>
-
+<h2>Daftar Mahasiswa - Acara 11</h2>
 <a
-    href="/BkpmWebServer/acara10/public/mahasiswa/create"
+    href="/BkpmWebServer/acara11/public/mahasiswa/create"
     class="btn btn-primary mb-3"
 >
     + Tambah Mahasiswa
@@ -54,7 +53,7 @@
                 <td>
 
                     <a
-                        href="/BkpmWebServer/acara10/public/mahasiswa/<?= $mhs['id'] ?>/edit"
+                        href="/BkpmWebServer/acara11/public/mahasiswa/<?= $mhs['id'] ?>/edit"
                         class="btn btn-warning btn-sm"
                     >
                         Edit
@@ -62,7 +61,7 @@
 
                     <form
                         method="POST"
-                        action="/BkpmWebServer/acara10/public/mahasiswa/<?= $mhs['id'] ?>/delete"
+                        action="/BkpmWebServer/acara11/public/mahasiswa/<?= $mhs['id'] ?>/delete"
                         style="display:inline"
                         onsubmit="return confirm('Yakin ingin menghapus data?')"
                     >

@@ -1,6 +1,5 @@
 <?php
 
-require_once __DIR__ . '/../Core/Database.php';
 require_once __DIR__ . '/../Models/Mahasiswa.php';
 
 class MahasiswaRepository
@@ -27,10 +26,19 @@ class MahasiswaRepository
             "SELECT * FROM mahasiswa WHERE id = :id"
         );
 
-        $stmt->execute([
-            'id' => $id
-        ]);
+        $stmt->execute(['id' => $id]);
+        $data = $stmt->fetch();
 
+        return $data ?: null;
+    }
+
+    public function findByNim(string $nim): ?array
+    {
+        $stmt = $this->db->prepare(
+            "SELECT * FROM mahasiswa WHERE nim = :nim LIMIT 1"
+        );
+
+        $stmt->execute(['nim' => $nim]);
         $data = $stmt->fetch();
 
         return $data ?: null;
@@ -38,12 +46,12 @@ class MahasiswaRepository
 
     public function create(Mahasiswa $mahasiswa): bool
     {
-        $stmt = $this->db->prepare("
-            INSERT INTO mahasiswa
+        $stmt = $this->db->prepare(
+            "INSERT INTO mahasiswa
             (nim, nama, prodi, status, dosen_id)
             VALUES
-            (:nim, :nama, :prodi, :status, :dosen_id)
-        ");
+            (:nim, :nama, :prodi, :status, :dosen_id)"
+        );
 
         return $stmt->execute([
             'nim' => $mahasiswa->getNim(),
@@ -56,23 +64,23 @@ class MahasiswaRepository
 
     public function update(int $id, Mahasiswa $mahasiswa): bool
     {
-        $stmt = $this->db->prepare("
-            UPDATE mahasiswa SET
+        $stmt = $this->db->prepare(
+            "UPDATE mahasiswa SET
                 nim = :nim,
                 nama = :nama,
                 prodi = :prodi,
                 status = :status,
                 dosen_id = :dosen_id
-            WHERE id = :id
-        ");
+            WHERE id = :id"
+        );
 
         return $stmt->execute([
-            'id' => $id,
             'nim' => $mahasiswa->getNim(),
             'nama' => $mahasiswa->getNama(),
             'prodi' => $mahasiswa->getProdi(),
             'status' => $mahasiswa->getStatus(),
-            'dosen_id' => $mahasiswa->getDosenId()
+            'dosen_id' => $mahasiswa->getDosenId(),
+            'id' => $id
         ]);
     }
 
@@ -82,8 +90,6 @@ class MahasiswaRepository
             "DELETE FROM mahasiswa WHERE id = :id"
         );
 
-        return $stmt->execute([
-            'id' => $id
-        ]);
+        return $stmt->execute(['id' => $id]);
     }
 }

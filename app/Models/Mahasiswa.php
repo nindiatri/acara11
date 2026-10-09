@@ -1,3 +1,4 @@
+
 <?php
 
 require_once __DIR__ . '/BaseModel.php';
@@ -65,7 +66,9 @@ class Mahasiswa extends BaseModel
     public function setNim(string $nim): void
     {
         if ($nim === '' || !ctype_digit($nim)) {
-            throw new InvalidArgumentException('NIM harus berupa angka.');
+            throw new InvalidArgumentException(
+                'NIM harus berupa angka.'
+            );
         }
 
         $this->nim = $nim;
@@ -76,7 +79,9 @@ class Mahasiswa extends BaseModel
         $nama = trim($nama);
 
         if ($nama === '') {
-            throw new InvalidArgumentException('Nama tidak boleh kosong.');
+            throw new InvalidArgumentException(
+                'Nama tidak boleh kosong.'
+            );
         }
 
         $this->nama = $nama;
@@ -87,7 +92,9 @@ class Mahasiswa extends BaseModel
         $prodi = trim($prodi);
 
         if ($prodi === '') {
-            throw new InvalidArgumentException('Prodi tidak boleh kosong.');
+            throw new InvalidArgumentException(
+                'Prodi tidak boleh kosong.'
+            );
         }
 
         $this->prodi = $prodi;
@@ -95,8 +102,10 @@ class Mahasiswa extends BaseModel
 
     public function setStatus(string $status): void
     {
-        if (!in_array($status, ['aktif', 'cuti', 'lulus'])) {
-            throw new InvalidArgumentException('Status tidak valid.');
+        if (!in_array($status, ['aktif', 'cuti', 'lulus'], true)) {
+            throw new InvalidArgumentException(
+                'Status tidak valid.'
+            );
         }
 
         $this->status = $status;

@@ -3,14 +3,19 @@
 require_once __DIR__ . '/BaseController.php';
 require_once __DIR__ . '/../Models/Mahasiswa.php';
 require_once __DIR__ . '/../Repositories/MahasiswaRepository.php';
+require_once __DIR__ . '/../Services/MahasiswaService.php';
 
 class MahasiswaController extends BaseController
 {
     private MahasiswaRepository $repo;
+    private MahasiswaService $service;
 
-    public function __construct(MahasiswaRepository $repo)
-    {
+    public function __construct(
+        MahasiswaRepository $repo,
+        MahasiswaService $service
+    ) {
         $this->repo = $repo;
+        $this->service = $service;
     }
 
     public function index(): void
@@ -30,23 +35,27 @@ class MahasiswaController extends BaseController
     public function store(): void
     {
         try {
-            $mahasiswa = new Mahasiswa(
-                trim($_POST['nim']),
-                trim($_POST['nama']),
-                trim($_POST['prodi']),
-                $_POST['status'],
-                !empty($_POST['dosen_id'])
-                    ? (int) $_POST['dosen_id']
-                    : null
-            );
+            $berhasil = $this->service->create($_POST);
 
-            $this->repo->create($mahasiswa);
-
-            $this->redirect('/BkpmWebServer/acara11/public/mahasiswa');
-
+            $_SESSION['flash'] = [
+                'type' => $berhasil ? 'success' : 'error',
+                'message' => $berhasil
+                    ? 'Data mahasiswa berhasil ditambahkan.'
+                    : 'Data mahasiswa gagal disimpan.'
+            ];
         } catch (InvalidArgumentException $e) {
-            echo $e->getMessage();
+            $_SESSION['flash'] = [
+                'type' => 'error',
+                'message' => $e->getMessage()
+            ];
+        } catch (Throwable $e) {
+            $_SESSION['flash'] = [
+                'type' => 'error',
+                'message' => 'Data mahasiswa gagal disimpan.'
+            ];
         }
+
+        $this->redirect('/BkpmWebServer/acara13/public/mahasiswa');
     }
 
     public function edit(int $id): void
@@ -67,29 +76,40 @@ class MahasiswaController extends BaseController
     public function update(int $id): void
     {
         try {
-            $mahasiswa = new Mahasiswa(
-                trim($_POST['nim']),
-                trim($_POST['nama']),
-                trim($_POST['prodi']),
-                $_POST['status'],
-                !empty($_POST['dosen_id'])
-                    ? (int) $_POST['dosen_id']
-                    : null
-            );
+            $berhasil = $this->service->update($id, $_POST);
 
-            $this->repo->update($id, $mahasiswa);
-
-            $this->redirect('/BkpmWebServer/acara11/public/mahasiswa');
-
+            $_SESSION['flash'] = [
+                'type' => $berhasil ? 'success' : 'error',
+                'message' => $berhasil
+                    ? 'Data mahasiswa berhasil diubah.'
+                    : 'Data mahasiswa gagal disimpan.'
+            ];
         } catch (InvalidArgumentException $e) {
-            echo $e->getMessage();
+            $_SESSION['flash'] = [
+                'type' => 'error',
+                'message' => $e->getMessage()
+            ];
+        } catch (Throwable $e) {
+            $_SESSION['flash'] = [
+                'type' => 'error',
+                'message' => 'Data mahasiswa gagal disimpan.'
+            ];
         }
+
+        $this->redirect('/BkpmWebServer/acara13/public/mahasiswa');
     }
 
     public function destroy(int $id): void
     {
-        $this->repo->delete($id);
+        $berhasil = $this->repo->delete($id);
 
-        $this->redirect('/BkpmWebServer/acara11/public/mahasiswa');
+    $_SESSION['flash'] = [
+        'type' => $berhasil ? 'success' : 'danger',
+        'message' => $berhasil
+            ? 'Data mahasiswa berhasil ditambahkan.'
+            : 'Data mahasiswa gagal disimpan.'
+    ];
+
+        $this->redirect('/BkpmWebServer/acara13/public/mahasiswa');
     }
 }

@@ -10,7 +10,7 @@
         content="width=device-width, initial-scale=1.0"
     >
 
-    <title>SI Akademik Acara 10</title>
+    <title>SI Akademik Acara 13</title>
 
     <link
         href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
@@ -27,7 +27,7 @@
 
         <a
             class="navbar-brand"
-            href="/BkpmWebServer/acara10/public/mahasiswa"
+            href="/BkpmWebServer/acara13/public/mahasiswa"
         >
             SI Akademik
         </a>
